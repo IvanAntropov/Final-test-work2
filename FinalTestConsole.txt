@@ -1,0 +1,97 @@
+1. Используя команду cat в терминале операционной системы Linux, 
+создать два файла Домашние животные (заполнив файл собаками, кошками, хомяками) и Вьючные животными заполнив файл Лошадьми, верблюдами и ослы), 
+а затем объединить их. Просмотреть содержимое созданного файла.
+Переименовать файл, дав ему новое имя (Друзья человека).
+
+ivan@ivan-VirtualBox:~$ mkdir finalTest
+ivan@ivan-VirtualBox:~$ cd finalTest
+ivan@ivan-VirtualBox:~/finalTest$ cat > Pets
+Dogs
+Cats
+Hamsters
+ivan@ivan-VirtualBox:~/finalTest$ cat > PackAnimals
+Hoeses
+Camels
+Donkeys
+ivan@ivan-VirtualBox:~/finalTest$ cat Pets PackAnimals > Animals
+ivan@ivan-VirtualBox:~/finalTest$ mv -v Animals MansFriends
+переименован 'Animals' -> 'MansFriends'
+ivan@ivan-VirtualBox:~/finalTest$ ls
+MansFriends  PackAnimals  Pets
+
+2. Создать директорию, переместить файл туда.
+
+ivan@ivan-VirtualBox:~/finalTest$ mkdir newDirectory
+ivan@ivan-VirtualBox:~/finalTest$ mv MansFriends newDirectory
+ivan@ivan-VirtualBox:~/finalTest$ ls
+newDirectory  PackAnimals  Pets
+ivan@ivan-VirtualBox:~/finalTest$ cd newDirectory
+ivan@ivan-VirtualBox:~/finalTest/newDirectory$ ls
+MansFriends
+ivan@ivan-VirtualBox:~/finalTest/newDirectory$ cat MansFriends
+Dogs
+Cats
+Hamsters
+Hoeses
+Camels
+Donkeys
+ivan@ivan-VirtualBox:~/finalTest/newDirectory$ history 14
+  422  mkdir finalTest
+  423  cd finalTest
+  424  cat > Pets
+  425  cat > PackAnimals
+  426  cat Pets PackAnimals > Animals
+  427  mv -v Animals MansFriends
+  428  ls
+  429  mkdir newDirectory
+  430  mv MansFriends newDirectory
+  431  ls
+  432  cd newDirectory
+  433  ls
+  434  cat MansFriends
+  435  history 14
+ivan@ivan-VirtualBox:~/finalTest/newDirectory$
+
+3. Подключить дополнительный репозиторий MySQL. Установить любой пакет из этого репозитория.
+
+ivan@ivan-VirtualBox:~/finalTest/newDirectory$sudo apt install mysql-server
+
+4. Установить и удалить deb-пакет с помощью dpkg.
+
+ivan@ivan-VirtualBox:~/finalTest/newDirectory$sudo -s
+root@ivan-VirtualBox:/home/ivan/finalTest/newDirectory# cd /home/ivan
+root@ivan-VirtualBox:/home/ivan# wget https://download.virtualbox.org/virtualbox/7.0.4/virtualbox-7.0_7.0.4-154605~Ubuntu~jammy_amd64.deb
+root@ivan-VirtualBox:/home/ivan# dpkg -i virtualbox-7.0_7.0.4-154605~Ubuntu~jammy_amd64.deb
+root@ivan-VirtualBox:/home/ivan# apt -f install
+root@ivan-VirtualBox:/home/ivan# cd /etc/apt/sources.list.d
+root@ivan-VirtualBox:cd /etc/apt/source.list# cat > vb.list
+deb [arch=amd64 signed-by=/usr/share/keyrings/oracle-virtualbox-2016.gpg]
+https://download.virtualbox.org/virtualbox/debian jammy contrib
+root@ivan-VirtualBox:cd /etc/apt/source.list# wget -Ohttps://www.virtualbox.org/download/oracle_vbox_2016.asc | sudo gpg --dearmor --yes --output /usr/share/keyrings/oracle-virtualbox-2016.gpg
+root@ivan-VirtualBox:/home/ivan# dpkg -r virtualbox-7.0_7.0.4-154605~Ubuntu~jammy_amd64.deb
+
+5. Выложить историю команд в терминале ubuntu
+
+root@ivan-VirtualBox:cd /etc/apt/source.list# history 
+......
+  234  rm vb.list
+  235  ls
+  236  history
+  237  clear
+  238  exit
+  239  wget https://download.virtualbox.org/virtualbox/7.0.4/virtualbox-7.0_7.0.4-154605~Ubuntu~jammy_amd64.deb
+  240  dpkg -i virtualbox-7.0_7.0.4-154605~Ubuntu~jammy_amd64.deb
+  241  apt -f install
+  242  cd /etc/apt/source.list.d
+  243  cd /etc/apt/sources.list.d
+  244  cat > vb.list
+  245  cat vb.list
+  246  cd /etc/apt/sources.list.d# wget -Ohttps://www.virtualbox.org/download/oracle_vbox_2016.asc | sudo gpg --dearmor --yes --output /usr/share/keyrings/oracle-virtualbox-2016.gpg
+  247  dpkg -r virtualbox-7.0_7.0.4-154605~Ubuntu~jammy_amd64.deb
+  248  dpkg -i man-db_2.9.4-2_amd64.deb
+  259  учше
+  250  exit
+  251  history
+
+
+
