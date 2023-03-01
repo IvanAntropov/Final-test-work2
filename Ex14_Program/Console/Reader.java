@@ -20,12 +20,15 @@ public class Reader {
     public String read(){
         String ConsoleString = "";
         boolean check = true;
+        System.out.printf(text1);
         while(check) {
+            System.out.print("\nEnter: ");
             if (in.hasNextLine()) {
                 ConsoleString = in.nextLine();
                 check = false;
             } else {
                 System.out.println(text2);
+                in.next();
             }
         }
 //        in.close();
@@ -37,6 +40,7 @@ public class Reader {
         boolean check = true;
         System.out.printf(text1);
         while(check) {
+            System.out.print("\nEnter: ");
             if (in.hasNextInt()) {
                 ConsoleInt = in.nextInt();
                 if(ConsoleInt>=min && ConsoleInt<=max) {
@@ -46,6 +50,7 @@ public class Reader {
                 }
             } else {
                 System.out.print("Введите число!!!");
+                in.next();
             }
         }
 //        in.close();

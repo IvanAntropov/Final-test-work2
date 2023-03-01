@@ -5,7 +5,21 @@
 //        типа счетчик была не в ресурсном try и/или ресурс остался открыт. Значение
 //        считать в ресурсе try, если при заведении животного заполнены все поля.
 
+package Counter;
 
+public class Counter {
+    static int count = 0;
+    public static void add(boolean check){
+        if(check){
+            throw new RuntimeException("Count doesn't work");
+        }else{
+            count++;
+        }
+    }
+    public static int getCount(){
+        return count;
+    }
+}
 
 
 

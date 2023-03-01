@@ -5,12 +5,13 @@ import Actions.Base.Action;
 import Actions.CommandsShower;
 import Actions.Trainer;
 import Console.Reader;
-
-import java.util.Scanner;
+import Data.Zoo;
 
 public class Manager {
     public Manager(){
     }
+
+
     Action[] arrayOfActions = new Action[]{new Action(), new Adder(), new CommandsShower(), new Trainer()};
     String[] array = new String[]{"""
                         Что вы хотите сделать?
@@ -18,7 +19,7 @@ public class Manager {
                         2) Показать команды животного
                         3) Научить животное новым командам
                         0) Выйти
-                        Enter:\s""","\nДо свидания!\n"};
+                        \s""","\nДо свидания!\n"};
     Reader reader = new Reader(array[0], "Такого варианта нет, попробуй снова.");
 
     public void Start(){
