@@ -1,0 +1,215 @@
+7. В подключенном MySQL репозитории создать базу данных “Друзья
+человека”
+
+CREATE DATABASE MansFriends;
+USE MansFriends;
+
+8. Создать таблицы с иерархией из диаграммы в БД
+
+CREATE TABLE Animals
+(
+	ID INT NOT NULL,
+	TABLES_NAME VARCHAR(64) NOT NULL,
+	DESCRIPTIONS VARCHAR(255),
+	COUNT_OF_ANIMALS INT
+);	
+CREATE TABLE Pack_animals
+(
+	KindID INT NOT NULL,
+	CAPACITY INT,
+	ENDURANCE VARCHAR(64),
+	SPEED INT
+	FOREIGN KEY (KindID)  REFERENCES Animals (ID)
+);
+CREATE TABLE Pets
+(
+	KindID INT NOT NULL,
+	KIND VARCHAR(32),
+	OBEDIENCY VARCHAR(64),
+	AUTONOMY VARCHAR(64),
+	FOOD_HABITS VARCHAR(64)
+	AnimalID INT,
+	FOREIGN KEY (AnimalID) REFERENCES Animals(ID)
+
+);
+CREATE TABLE Cats
+( 	
+	ID INT AUTO_INCREMENT PRIMARY KEY,
+	NAME VARCHAR(64) NOT NULL,
+	COMMANDS VARCHAR(255), 
+	BIRTHDAY Date,
+	KindID INT,
+	AnimalID INT,
+	FOREIGN KEY (KindID) REFERENCES Pets(KindID),
+	FOREIGN KEY (AnimalID) REFERENCES Animals(ID)
+);
+CREATE TABLE Dogs
+(
+	ID PRIMARY KEY AUTO_INCREMENT,
+	NAME VARCHAR(64) NOT NULL,
+	COMMANDS VARCHAR(255), 
+	BIRTHDAY Date,
+	KindID INT,
+	AnimalID INT,
+	FOREIGN KEY (KindID) REFERENCES Pets(KindID),
+	FOREIGN KEY (AnimalID) REFERENCES Animals(ID)
+);
+CREATE TABLE Humsters
+(
+ 	ID PRIMARY KEY AUTO_INCREMENT,
+	NAME VARCHAR(64) NOT NULL,
+	COMMANDS VARCHAR(255), 
+	BIRTHDAY Date,
+	KindID INT,
+	AnimalID INT,
+	FOREIGN KEY (KindID) REFERENCES Pets(KindID),
+	FOREIGN KEY (AnimalID) REFERENCES Animals(ID)
+);
+CREATE TABLE Horses
+(
+ 	ID PRIMARY KEY AUTO_INCREMENT,
+	NAME VARCHAR(64) NOT NULL,
+	COMMANDS VARCHAR(255), 
+	BIRTHDAY Date,
+	KindID INT,
+	AnimalID INT,
+	FOREIGN KEY (KindID) REFERENCES Pack_animals(KindID),
+	FOREIGN KEY (AnimalID) REFERENCES Animals(ID)
+);
+CREATE TABLE Donkeys
+(
+	ID PRIMARY KEY AUTO_INCREMENT,
+	NAME VARCHAR(64) NOT NULL,
+	COMMANDS VARCHAR(255), 
+	BIRTHDAY Date,
+	KindID INT,
+	AnimalID INT,
+	FOREIGN KEY (KindID) REFERENCES Pack_animals(KindID),
+	FOREIGN KEY (AnimalID) REFERENCES Animals(ID)
+);
+CREATE TABLE Camels
+(
+	ID PRIMARY KEY AUTO_INCREMENT,
+	NAME VARCHAR(64) NOT NULL,
+	COMMANDS VARCHAR(255), 
+	BIRTHDAY Date,
+	KindID INT,
+	AnimalID INT,
+	FOREIGN KEY (KindID) REFERENCES Pack_animals(KindID),
+	FOREIGN KEY (AnimalID) REFERENCES Animals(ID)
+);
+
+
+9. Заполнить низкоуровневые таблицы именами(животных), командами
+которые они выполняют и датами рождения
+
+
+INSERT INTO Cats (NAME, COMMANDS, BIRTHDAY)
+VALUES 
+('Вася', 'Сидеть', 01.01.2001),
+('Муся', 'Голос', 01.01.2002),
+('Барсик', 'Лежать', 01.01.2003);
+INSERT INTO Dogs (NAME, COMMANDS, BIRTHDAY)
+VALUES 
+('Вася', 'Сидеть', 01.01.2004),
+('Муся', 'Голос', 01.01.2005),
+('Барсик', 'Лежать', 01.01.2006);
+INSERT INTO Humsters (NAME, COMMANDS, BIRTHDAY)
+VALUES 
+('Вася', 'Сидеть', 01.01.2007),
+('Муся', 'Голос', 01.01.2008),
+('Барсик', 'Лежать', 01.01.2009);
+INSERT INTO Horses (NAME, COMMANDS, BIRTHDAY)
+VALUES 
+('Вася', 'Сидеть', 01.01.2010),
+('Муся', 'Голос', 01.01.2011),
+('Барсик', 'Лежать', 01.01.2012);
+INSERT INTO Donleys (NAME, COMMANDS, BIRTHDAY)
+VALUES 
+('Вася', 'Сидеть', 01.01.2012),
+('Муся', 'Голос', 01.01.2013),
+('Барсик', 'Лежать', 01.01.2014);
+INSERT INTO Camels (NAME, COMMANDS, BIRTHDAY)
+VALUES 
+('Вася', 'Сидеть', 01.01.2015),
+('Муся', 'Голос', 01.01.2016),
+('Барсик', 'Лежать', 01.01.2017);
+
+
+10. Удалив из таблицы верблюдов, т.к. верблюдов решили перевезти в другой
+питомник на зимовку. Объединить таблицы лошади, и ослы в одну таблицу
+
+
+DROP TABLE Camels;
+CREATE TABLE Horses_Donkeys
+(
+	ID PRIMARY KEY AUTO_INCREMENT,
+	NAME VARCHAR(64) NOT NULL,
+	COMMANDS VARCHAR(255), 
+	BIRTHDAY Date,
+	KindID INT,
+	AnimalID INT,
+	FOREIGN KEY (KindID) REFERENCES Pack_animals(KindID),
+	FOREIGN KEY (AnimalID) REFERENCES Animals(ID)
+);
+INSERT INTO Horses_Donkeys(NAME, COMMANDS, BIRTHDAY, KindID, AnimalID) 
+SELECT NAME, COMMANDS, BIRTHDAY, KindID, AnimalID FROM Horses UNION SELECT * FROM Donkeys;
+DROP TABLE Horses, Donkeys;
+
+11. Создать новую таблицу “молодые животные” в которую попадут все
+животные старше 1 года, но младше 3 лет и в отдельном столбце с точностью
+до месяца подсчитать возраст животных в новой таблице
+
+CREATE TABLE YoungAnimals
+(
+	ID PRIMARY KEY AUTO_INCREMENT,
+	NAME VARCHAR(64) NOT NULL,
+	COMMANDS VARCHAR(255), 
+	BIRTHDAY Date,
+	KindID INT,
+	AnimalID INT,
+	FOREIGN KEY (KindID) REFERENCES Pack_animals(KindID),
+	FOREIGN KEY (AnimalID) REFERENCES Animals(ID),
+	AGE DATE
+);
+
+INSERT INTO YoungAnimals (NAME, COMMANDS, BIRTHDAY, KindID, AnimalID) 
+SELECT NAME, COMMANDS, BIRTHDAY, KindID, AnimalID, (YEAR(CURRENT_DATE)-YEAR(BIRTHDAY))-(RIGHT(CURRENT_DATE,5)<RIGHT(BIRTHDAY,5)) AS AGE 
+FROM Cats,Dogs,Humsters,Horses_Donkeys WHERE AGE > 1 AND 3 > AGE;
+
+INSERT INTO YoungAnimals (AGE) 
+SELECT (YEAR(CURRENT_DATE)-YEAR(BIRTHDAY))-(RIGHT(CURRENT_DATE,5)<RIGHT(BIRTHDAY,5)) AS AGE
+FROM Cats,Dogs,Humsters,Horses_Donkeys WHERE BIRTHDAY > 1 AND 3 > BIRTHDAY;
+
+12. Объединить все таблицы в одну, при этом сохраняя поля, указывающие на
+прошлую принадлежность к старым таблицам
+
+CREATE TABLE AllAnimals
+(
+	ID PRIMARY KEY AUTO_INCREMENT,
+	NAME VARCHAR(64) NOT NULL,
+	COMMANDS VARCHAR(255), 
+	BIRTHDAY Date,
+	KindID INT,
+	AnimalID INT,
+	FOREIGN KEY (KindID) REFERENCES Pack_animals(KindID),
+	FOREIGN KEY (AnimalID) REFERENCES Animals(ID)
+);
+INSERT INTO AllAnimals(NAME, COMMANDS, BIRTHDAY, KindID, AnimalID) 
+SELECT NAME, COMMANDS, BIRTHDAY, KindID, AnimalID FROM Horses_Donkeys UNION SELECT * FROM Humsters 
+	UNION SELECT * FROM Dogs 
+	UNION SELECT * FROM Cats;
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+ 
