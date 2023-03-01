@@ -54,7 +54,7 @@ CREATE TABLE Dogs
 	FOREIGN KEY (KindID) REFERENCES Pets(KindID),
 	FOREIGN KEY (AnimalID) REFERENCES Animals(ID)
 );
-CREATE TABLE Humsters
+CREATE TABLE Hamsters
 (
  	ID PRIMARY KEY AUTO_INCREMENT,
 	NAME VARCHAR(64) NOT NULL,
@@ -114,7 +114,7 @@ VALUES
 ('Вася', 'Сидеть', 01.01.2004),
 ('Муся', 'Голос', 01.01.2005),
 ('Барсик', 'Лежать', 01.01.2006);
-INSERT INTO Humsters (NAME, COMMANDS, BIRTHDAY)
+INSERT INTO Hamsters (NAME, COMMANDS, BIRTHDAY)
 VALUES 
 ('Вася', 'Сидеть', 01.01.2007),
 ('Муся', 'Голос', 01.01.2008),
@@ -124,7 +124,7 @@ VALUES
 ('Вася', 'Сидеть', 01.01.2010),
 ('Муся', 'Голос', 01.01.2011),
 ('Барсик', 'Лежать', 01.01.2012);
-INSERT INTO Donleys (NAME, COMMANDS, BIRTHDAY)
+INSERT INTO Donkeys (NAME, COMMANDS, BIRTHDAY)
 VALUES 
 ('Вася', 'Сидеть', 01.01.2012),
 ('Муся', 'Голос', 01.01.2013),
@@ -175,11 +175,11 @@ CREATE TABLE YoungAnimals
 
 INSERT INTO YoungAnimals (NAME, COMMANDS, BIRTHDAY, KindID, AnimalID) 
 SELECT NAME, COMMANDS, BIRTHDAY, KindID, AnimalID, (YEAR(CURRENT_DATE)-YEAR(BIRTHDAY))-(RIGHT(CURRENT_DATE,5)<RIGHT(BIRTHDAY,5)) AS AGE 
-FROM Cats,Dogs,Humsters,Horses_Donkeys WHERE AGE > 1 AND 3 > AGE;
+FROM Cats,Dogs,Hamsters,Horses_Donkeys WHERE AGE > 1 AND 3 > AGE;
 
 INSERT INTO YoungAnimals (AGE) 
 SELECT (YEAR(CURRENT_DATE)-YEAR(BIRTHDAY))-(RIGHT(CURRENT_DATE,5)<RIGHT(BIRTHDAY,5)) AS AGE
-FROM Cats,Dogs,Humsters,Horses_Donkeys WHERE BIRTHDAY > 1 AND 3 > BIRTHDAY;
+FROM Cats,Dogs,Hamsters,Horses_Donkeys WHERE BIRTHDAY > 1 AND 3 > BIRTHDAY;
 
 12. Объединить все таблицы в одну, при этом сохраняя поля, указывающие на
 прошлую принадлежность к старым таблицам
@@ -196,7 +196,7 @@ CREATE TABLE AllAnimals
 	FOREIGN KEY (AnimalID) REFERENCES Animals(ID)
 );
 INSERT INTO AllAnimals(NAME, COMMANDS, BIRTHDAY, KindID, AnimalID) 
-SELECT NAME, COMMANDS, BIRTHDAY, KindID, AnimalID FROM Horses_Donkeys UNION SELECT * FROM Humsters 
+SELECT NAME, COMMANDS, BIRTHDAY, KindID, AnimalID FROM Horses_Donkeys UNION SELECT * FROM Hamsters 
 	UNION SELECT * FROM Dogs 
 	UNION SELECT * FROM Cats;
 

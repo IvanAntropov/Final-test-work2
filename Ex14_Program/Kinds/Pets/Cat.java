@@ -1,5 +1,8 @@
-class CatClass extends PetClass {
-    public CatClass(String Name, String Commands, String Birthday){
+package Kinds.Pets;
+import Kinds.Pet;
+
+public class Cat extends Pet {
+    public Cat(String Name, String Commands, String Birthday){
         super();
         this.obedience = "Average";
         this.autonomy = "Full";
@@ -16,12 +19,14 @@ class CatClass extends PetClass {
 
     @Override
     public void GetInfo(){
-        String info = String.format("Name: %s\n" +
-                "Commands: %s\n" +
-                "Birthday: %s\n" +
-                "Obedience: %s\n" +
-                "Autonomy: %s\n" +
-                "Food habits: %s\n",
+        String info = String.format("""
+                        Name: %s
+                        Commands: %s
+                        Birthday: %s
+                        Obedience: %s
+                        Autonomy: %s
+                        Food habits: %s
+                        """,
                 name, commands, birthday, obedience, autonomy , foodHabits);
         System.out.println(info);
     }
