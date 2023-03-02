@@ -15,7 +15,17 @@ public class Adder extends Action {
     Animal[] arrayOfAnimals = new Animal[]{null, new Cat(), new Dog(), new Hamster(),
                                         new Horse(), new Donkey(), new Camel()};
     public Animal whichAnimal(){
-        Reader reader = new Reader("Какое животное?\n 1) Кот\n 2) Собака\n 3) Хомяк\n 4) Лошадь\n 5) Осел\n 6) Верблюд\n 0) Назад \nEnter: ", "Такого зверя нет!");
+        Reader reader = new Reader("""
+                Какое животное?
+                 1) Кот
+                 2) Собака
+                 3) Хомяк
+                 4) Лошадь
+                 5) Осел
+                 6) Верблюд
+                 0) Назад\s
+                """,
+                "Такого зверя нет!");
         return arrayOfAnimals[reader.readInt(0,6)];
     }
     public boolean add(Animal animal){
@@ -24,9 +34,16 @@ public class Adder extends Action {
         }
         boolean check = true;
         while(check){
-            Reader reader = new Reader("Введите имя;команды;день рождение животного через точку с запятой! \n Пример: Вася;Воровать;29.03.2012", "Проверьте данные и попробуйте" +
+            Reader reader = new Reader("""
+                    Введите имя;команды;день рождение животного через точку с запятой!\s
+                    0) Назад
+                     Пример: Вася;Воровать;29.03.2012""", "Проверьте данные и попробуйте" +
                     " снова");
-            String[] animalSet = reader.read().split(";");
+            String descriptionOfAnimal = reader.read();
+            if(descriptionOfAnimal.equals("0")){
+                return true;
+            }
+            String[] animalSet = descriptionOfAnimal.split(";");
             try {
                 if (animalSet.length == 3) {
                     animal.set(animalSet[0], animalSet[1], animalSet[2]);
